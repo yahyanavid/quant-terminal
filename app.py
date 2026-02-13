@@ -230,13 +230,22 @@ if os.path.exists(DB_FILE):
 
             custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
 
-            fig = px.treemap(
+           fig = px.treemap(
                 latest_cvd, path=[px.Constant("All Sectors"), 'Sector', 'Ticker'], 
                 color='Sentiment_Score', color_continuous_scale=custom_colors, range_color=[-2, 2],
                 hover_data={'Sentiment_Score': False, 'Signal': True, 'Alert Price': True, 'Date_Str': True, 'Days Active': True}
             )
-            fig.update_layout(margin=dict(t=10, l=10, r=10, b=10), paper_bgcolor="rgba(0,0,0,0)", coloraxis_showscale=False)
-            st.plotly_chart(fig, use_container_width=True)
+            
+            # --- THE CLOUD GLITCH FIX ---
+            fig.update_traces(
+                marker=dict(line=dict(width=1.5, color='#0E1117')), # Dark borders instead of glitchy white ones
+                textfont=dict(color='white', size=15, family='sans-serif') # Forces clean, crisp fonts
+            )
+            
+            fig.update_layout(margin=dict(t=10, l=10, r=10, b=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", coloraxis_showscale=False)
+            
+            # theme=None blocks Streamlit from overriding our custom dark theme
+            st.plotly_chart(fig, use_container_width=True, theme=None)
             
     st.markdown("---")
 
