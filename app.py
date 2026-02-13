@@ -230,7 +230,7 @@ if os.path.exists(DB_FILE):
 
             custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
 
-           fig = px.treemap(
+            fig = px.treemap(
                 latest_cvd, path=[px.Constant("All Sectors"), 'Sector', 'Ticker'], 
                 color='Sentiment_Score', color_continuous_scale=custom_colors, range_color=[-2, 2],
                 hover_data={'Sentiment_Score': False, 'Signal': True, 'Alert Price': True, 'Date_Str': True, 'Days Active': True}
