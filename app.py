@@ -236,16 +236,15 @@ if os.path.exists(DB_FILE):
                 hover_data={'Sentiment_Score': False, 'Signal': True, 'Alert Price': True, 'Date_Str': True, 'Days Active': True}
             )
             
-            # --- THE CLOUD GLITCH FIX ---
+            # We ONLY fix the borders, and leave the fonts alone
             fig.update_traces(
-                marker=dict(line=dict(width=1.5, color='#0E1117')), # Dark borders instead of glitchy white ones
-                textfont=dict(color='white', size=15, family='sans-serif') # Forces clean, crisp fonts
+                marker=dict(line=dict(width=2, color='#0E1117'))
             )
             
             fig.update_layout(margin=dict(t=10, l=10, r=10, b=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", coloraxis_showscale=False)
             
-            # theme=None blocks Streamlit from overriding our custom dark theme
-            st.plotly_chart(fig, use_container_width=True, theme=None)
+            # Removed theme=None so Streamlit can apply its modern makeover!
+            st.plotly_chart(fig, use_container_width=True)
             
     st.markdown("---")
 
