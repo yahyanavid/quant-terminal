@@ -228,7 +228,7 @@ if os.path.exists(DB_FILE):
             latest_cvd['Alert Price'] = latest_cvd['Price'].apply(lambda x: f"${x:.2f}" if pd.notnull(x) else "N/A")
             latest_cvd['Days Active'] = (datetime.now(timezone.utc) - latest_cvd['Time']).dt.days
 
-           custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
+            custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
 
             fig = px.treemap(
                 latest_cvd, path=[px.Constant("All Sectors"), 'Sector', 'Ticker'], 
