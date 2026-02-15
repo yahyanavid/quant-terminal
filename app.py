@@ -228,7 +228,7 @@ if os.path.exists(DB_FILE):
             latest_cvd['Alert Price'] = latest_cvd['Price'].apply(lambda x: f"${x:.2f}" if pd.notnull(x) else "N/A")
             latest_cvd['Days Active'] = (datetime.now(timezone.utc) - latest_cvd['Time']).dt.days
 
-            custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
+           custom_colors = ['#8B0000', '#EF553B', '#262730', '#00CC96', '#00FF00']
 
             fig = px.treemap(
                 latest_cvd, path=[px.Constant("All Sectors"), 'Sector', 'Ticker'], 
@@ -236,14 +236,19 @@ if os.path.exists(DB_FILE):
                 hover_data={'Sentiment_Score': False, 'Signal': True, 'Alert Price': True, 'Date_Str': True, 'Days Active': True}
             )
             
-            # We ONLY fix the borders, and leave the fonts alone
-            fig.update_traces(
-                marker=dict(line=dict(width=2, color='#0E1117'))
+            # --- THE TRADINGVIEW MODERNIZATION ---
+            # 1. Force sharp, dark, thin borders
+            fig.update_traces(marker=dict(line=dict(width=1, color='#0E1117')), root_color="#0E1117")
+            
+            # 2. Strip all padding and margins to make it edge-to-edge
+            fig.update_layout(
+                margin=dict(t=0, l=0, r=0, b=0), 
+                paper_bgcolor="rgba(0,0,0,0)", 
+                plot_bgcolor="rgba(0,0,0,0)", 
+                coloraxis_showscale=False,
+                treemapcolorway=["#0E1117"] # Hides the top root box color
             )
             
-            fig.update_layout(margin=dict(t=10, l=10, r=10, b=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", coloraxis_showscale=False)
-            
-            # Removed theme=None so Streamlit can apply its modern makeover!
             st.plotly_chart(fig, use_container_width=True)
             
     st.markdown("---")
